@@ -1,6 +1,7 @@
 package br.usjt.devmobile.minhassenhasapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,11 +22,16 @@ public class ListaSenhasActivity extends AppCompatActivity {
     private static final String TAG = "ListaSenhasActivity";
     private List<Senha> listaSenhas;
     private ListView senhasListView;
+    private ArrayAdapter <Senha> adapter;
+    private AppDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_senhas);
+            db = Room.databaseBuilder()
+
         listaSenhas = geraListaSenhas();
         senhasListView = findViewById(R.id.senhasListView);
 
