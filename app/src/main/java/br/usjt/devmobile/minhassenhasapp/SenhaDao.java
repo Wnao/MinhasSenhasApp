@@ -25,6 +25,13 @@ public interface SenhaDao {
     @Delete
     void delete(Senha senha);
 
-    @Query("SELECT * FROM senha ORDER BY nome DESC")
+    @Query("SELECT * FROM senha ORDER BY nome")
     List<Senha> getAllAsc();
+
+    @Query("SELECT * FROM senha ORDER BY nome DESC")
+    List<Senha> getAllDesc();
+
+    @Query("SELECT * FROM senha WHERE nome LIKE :nome AND " +
+            "usuario LIKE :usuario ")
+    Senha findByNome(String nome, String usuario);
 }

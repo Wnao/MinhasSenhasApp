@@ -72,12 +72,10 @@ public class ListasSenhasActivity extends AppCompatActivity {
                     geraListaSenhasOrdemCrescente();
                 break;
             case R.id.action_decrescente:
-                Toast.makeText(this, "Item2 selecionado", Toast.LENGTH_SHORT)
-                        .show();
+                    geraListaSenhasOrdemDecrescente();
                 break;
             case R.id.action_busca:
-                Toast.makeText(this, "Item3 selecionado", Toast.LENGTH_SHORT)
-                        .show();
+                geraListaSenhasOrdemBusca();
                 break;
             case R.id.action_original:
                 geraListaOriginal();
@@ -118,6 +116,25 @@ public class ListasSenhasActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
+    private void geraListaSenhasOrdemDecrescente(){
+        listaSenhas = geraListaSenhasDesc();
+        if(adapter != null) {
+            adapter.clear();
+            adapter.addAll(listaSenhas);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void geraListaSenhasOrdemBusca(){
+        listaSenhas = geraListaSenhasDesc();
+        if(adapter != null) {
+            adapter.clear();
+            adapter.addAll(listaSenhas);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 
     public void adicionarSenha(View v){
         Intent intent = new Intent(this,CadastroSenhaActivity.class);
@@ -163,6 +180,48 @@ public class ListasSenhasActivity extends AppCompatActivity {
         @Override
         protected List<Senha> doInBackground(Void... url) {
             return db.senhaDao().getAllAsc();
+        }
+    }
+
+    public List<Senha> geraListaSenhasDesc()  {
+
+        List<Senha> lista = null;
+        try {
+            lista = new GetSenhasAsyncTaskDesc().execute().get();
+        }catch (ExecutionException e1){
+            e1.printStackTrace();
+        }catch (InterruptedException e2){
+            e2.printStackTrace();
+        }
+        return lista;
+    }
+
+    private class GetSenhasAsyncTaskDesc extends AsyncTask<Void, Void,List<Senha>>
+    {
+        @Override
+        protected List<Senha> doInBackground(Void... url) {
+            return db.senhaDao().getAllDesc();
+        }
+    }
+
+    public List<Senha> geraListaSenhasBusc()  {
+
+        List<Senha> lista = null;
+        try {
+            lista = new GetSenhasAsyncTaskBusc().execute().get();
+        }catch (ExecutionException e1){
+            e1.printStackTrace();
+        }catch (InterruptedException e2){
+            e2.printStackTrace();
+        }
+        return lista;
+    }
+
+    private class GetSenhasAsyncTaskBusc extends AsyncTask<Void, Void,List<Senha>>
+    {
+        @Override
+        protected List<Senha> doInBackground(Void... url) {
+            return db.senhaDao().getAllBusc();
         }
     }
 }
